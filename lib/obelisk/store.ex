@@ -1,19 +1,21 @@
 defmodule Obelisk.Store do
-
   @doc """
   Start the store
   """
   def start_link do
-    Agent.start_link( fn ->
-      store = HashDict.new
+    Agent.start_link(fn ->
+      store = HashDict.new()
       store = HashDict.put(store, :posts, [])
       store = HashDict.put(store, :pages, [])
-      store = HashDict.put(store, :layouts, %{
-        layout: Obelisk.Layout.layout,
-        post:   Obelisk.Layout.post,
-        page:   Obelisk.Layout.page,
-        index:  Obelisk.Layout.index
-      })
+
+      store =
+        HashDict.put(store, :layouts, %{
+          layout: Obelisk.Layout.layout(),
+          post: Obelisk.Layout.post(),
+          page: Obelisk.Layout.page(),
+          index: Obelisk.Layout.index()
+        })
+
       store
     end)
   end
@@ -54,5 +56,4 @@ defmodule Obelisk.Store do
   def get_layouts(store) do
     Agent.get(store, &HashDict.get(&1, :layouts))
   end
-
 end

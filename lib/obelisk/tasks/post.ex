@@ -1,5 +1,4 @@
 defmodule Obelisk.Tasks.Post do
-  
   @moduledoc """
   This task creates a new post with the given post title argument as part of the filename,
   and included in the front matter title
@@ -24,7 +23,6 @@ defmodule Obelisk.Tasks.Post do
   Run the build task
   """
   def run(args) do
-    hd(args) |> Obelisk.Post.create
+    hd(args) |> Obelisk.Post.create()
   end
-
 end

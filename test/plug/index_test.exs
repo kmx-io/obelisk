@@ -5,7 +5,8 @@ defmodule Obelisk.Plug.IndexTest do
   @opts Obelisk.Plug.Index.init([])
 
   test "ignores sent conn" do
-    conn = conn(:get, "/")
+    conn =
+      conn(:get, "/")
       |> Map.put(:state, :sent)
       |> Map.put(:status, 204)
 
@@ -16,7 +17,8 @@ defmodule Obelisk.Plug.IndexTest do
   end
 
   test "sends conn as-is if ./build/index.html doesn't exist" do
-    conn = conn(:get, "/")
+    conn =
+      conn(:get, "/")
       |> Map.put(:resp_body, "Created")
       |> Map.put(:status, 201)
 
@@ -29,8 +31,8 @@ defmodule Obelisk.Plug.IndexTest do
 
   test "sends file if exists" do
     source = Path.expand("./test/fixtures/build")
-    dest   = Path.expand("./build")
-    File.cp_r source, dest 
+    dest = Path.expand("./build")
+    File.cp_r(source, dest)
 
     conn = conn(:get, "/")
 
@@ -39,6 +41,6 @@ defmodule Obelisk.Plug.IndexTest do
     assert conn.halted
     refute conn.resp_body in [nil, ""]
 
-    File.rm_rf dest
+    File.rm_rf(dest)
   end
 end

@@ -2,17 +2,17 @@ defmodule DocumentTest do
   use ExUnit.Case, async: false
 
   setup do
-    TestHelper.cleanup
-    on_exit fn -> TestHelper.cleanup end
+    TestHelper.cleanup()
+    on_exit(fn -> TestHelper.cleanup() end)
   end
 
   test "Prepare document" do
-    Obelisk.Tasks.Init.run []
-    Obelisk.Tasks.Build.run []
+    Obelisk.Tasks.Init.run([])
+    Obelisk.Tasks.Build.run([])
     create_post(10)
     file = "./posts/#{filename(10)}.markdown"
 
-    document = Obelisk.Document.prepare file, { Obelisk.Templates.post_template, :eex }
+    document = Obelisk.Document.prepare(file, {Obelisk.Templates.post_template(), :eex})
     assert document.frontmatter.title == "This is the heading"
     assert document.frontmatter.description == "This is the desc"
   end
@@ -49,5 +49,4 @@ defmodule DocumentTest do
     `and some inline code` for good measure
     """
   end
-
 end

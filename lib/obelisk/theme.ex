@@ -1,5 +1,4 @@
 defmodule Obelisk.Theme do
-
   @moduledoc """
   Functions to manage themes.
   """
@@ -16,7 +15,7 @@ defmodule Obelisk.Theme do
   """
 
   def current do
-    Obelisk.Config.config
+    Obelisk.Config.config()
     |> Dict.get(:theme)
     |> String.split("/")
     |> _current
@@ -24,14 +23,14 @@ defmodule Obelisk.Theme do
 
   defp _current([local]), do: local
   defp _current([_user, repo]), do: repo
-  defp _current(url), do: url |> Enum.reverse |> hd |> String.replace("\.git", "")
+  defp _current(url), do: url |> Enum.reverse() |> hd |> String.replace("\.git", "")
 
   @doc """
   Ensures that the nominated theme is available.
   """
 
   def ensure do
-    Obelisk.Config.config
+    Obelisk.Config.config()
     |> Dict.get(:theme)
     |> String.split("/")
     |> _ensure
@@ -45,21 +44,22 @@ defmodule Obelisk.Theme do
   defp ensure_local(false, theme), do: raise(Obelisk.Errors.ThemeNotFound, {:local, theme})
 
   defp ensure_github(true, _user, _repo), do: true
+
   defp ensure_github(false, user, repo) do
     "https://github.com/#{user}/#{repo}.git"
-    |> Obelisk.Git.clone
+    |> Obelisk.Git.clone()
   end
 
   defp ensure_url(url) do
-    repo = url
-    |> Enum.reverse
-    |> hd
-    |> String.replace("\.git", "")
+    repo =
+      url
+      |> Enum.reverse()
+      |> hd
+      |> String.replace("\.git", "")
 
     _ensure_url(File.dir?("themes/#{repo}"), Enum.join(url, "/"))
   end
 
   def _ensure_url(true, _url), do: true
-  def _ensure_url(false, url), do: url |> Obelisk.Git.clone
-
+  def _ensure_url(false, url), do: url |> Obelisk.Git.clone()
 end

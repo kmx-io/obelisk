@@ -8,7 +8,7 @@ defmodule PostTest do
   end
 
   test "separate post into front matter and content" do
-    { frontmatter, content } = Obelisk.Document.parts(post_content)
+    {frontmatter, content} = Obelisk.Document.parts(post_content)
     assert "---\nfront: matter\noh: yeah" == frontmatter
     assert "\nThis is the post content\n\n* And\n* A\n* List\n" == content
   end
@@ -27,5 +27,4 @@ defmodule PostTest do
     * List
     """
   end
-
 end

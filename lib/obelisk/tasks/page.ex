@@ -1,5 +1,4 @@
 defmodule Obelisk.Tasks.Page do
-  
   @moduledoc """
   This task creates a new page with the given post title argument as part of the filename,
   and included in the front matter title
@@ -17,6 +16,5 @@ defmodule Obelisk.Tasks.Page do
   Run the build task
   """
   def run([]), do: raise(ArgumentError, message: "Cannot create a new page without the post name")
-  def run(args), do: hd(args) |> Obelisk.Page.create
-
+  def run(args), do: hd(args) |> Obelisk.Page.create()
 end

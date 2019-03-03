@@ -1,5 +1,4 @@
 defmodule Obelisk.Templates do
-
   @moduledoc """
   This module contains various templates for building initial files
   for obelisk sites.
@@ -10,7 +9,7 @@ defmodule Obelisk.Templates do
     ---
     title: #{title}
     description: A new blog post
-    created: #{Obelisk.Date.now}
+    created: #{Obelisk.Date.now()}
     ---
 
     Welcome to your brand new obelisk post.
@@ -42,45 +41,45 @@ defmodule Obelisk.Templates do
   end
 
   def post_template do
-  """
-  <div id="post">
-    <h2>
-      <a href="<%= @filename %>"><%= @frontmatter.title %></a>
-    </h2>
-    <%= @content %>
-  </div>
-  """
+    """
+    <div id="post">
+      <h2>
+        <a href="<%= @filename %>"><%= @frontmatter.title %></a>
+      </h2>
+      <%= @content %>
+    </div>
+    """
   end
 
   def page_template do
-  """
-  <div id="page">
-    <%= @frontmatter.title %>
-    <hr />
-    <%= @content %>
-  </div>
-  """
+    """
+    <div id="page">
+      <%= @frontmatter.title %>
+      <hr />
+      <%= @content %>
+    </div>
+    """
   end
 
   def layout do
-  """
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>This should be replaced by whats in site.yml</title>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <%= @css %>
-      <%= @js %>
-    </head>
+    """
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>This should be replaced by whats in site.yml</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <%= @css %>
+        <%= @js %>
+      </head>
 
-    <body>
-      <div class="container">
-        <h1>obelisk</h1>
-        <%= @content %>
-      </div>
-    </body>
-  </html>
-  """
+      <body>
+        <div class="container">
+          <h1>obelisk</h1>
+          <%= @content %>
+        </div>
+      </body>
+    </html>
+    """
   end
 
   def index do
@@ -111,5 +110,4 @@ defmodule Obelisk.Templates do
     }
     """
   end
-
 end

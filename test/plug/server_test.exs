@@ -5,7 +5,9 @@ defmodule Obelisk.Plug.ServerTest do
   @opts Obelisk.Plug.Server.init([])
 
   test "sends 404 for unknown response" do
-    message = "Resource not found. If you're looking for the index page, try http://localhost:4000/"
+    message =
+      "Resource not found. If you're looking for the index page, try http://localhost:4000/"
+
     conn = conn(:get, "/unknown/response")
 
     conn = Obelisk.Plug.Server.call(conn, @opts)
@@ -17,8 +19,8 @@ defmodule Obelisk.Plug.ServerTest do
 
   test "doesn't send 404 for known files" do
     source = Path.expand("./test/fixtures/build")
-    dest   = Path.expand("./build")
-    File.cp_r source, dest 
+    dest = Path.expand("./build")
+    File.cp_r(source, dest)
 
     conn = conn(:get, "/")
 
@@ -28,6 +30,6 @@ defmodule Obelisk.Plug.ServerTest do
     refute conn.resp_body in [nil, ""]
     assert conn.status == 200
 
-    File.rm_rf dest
+    File.rm_rf(dest)
   end
 end

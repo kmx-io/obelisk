@@ -8,19 +8,19 @@ defmodule Mix.Tasks.Perf do
   def run(_) do
     Obelisk.Tasks.Init.run([])
     make_10k_posts
-    IO.puts Chronos.Formatter.strftime(Chronos.now, "%Y-%0m-%0d-%H:%M:%S")
+    IO.puts(Chronos.Formatter.strftime(Chronos.now(), "%Y-%0m-%0d-%H:%M:%S"))
     Obelisk.Tasks.Build.run([])
-    IO.puts Chronos.Formatter.strftime(Chronos.now, "%Y-%0m-%0d-%H:%M:%S")
+    IO.puts(Chronos.Formatter.strftime(Chronos.now(), "%Y-%0m-%0d-%H:%M:%S"))
     cleanup
   end
 
   defp make_10k_posts do
-    1..10_000 |> Enum.each &(create_post &1)
+    1..10_000 |> Enum.each(&create_post(&1))
   end
 
   defp filename(num) do
-    today = Chronos.today
-    "#{Chronos.Formatter.strftime today, "%y-%0m-%0d"}-post-#{num}.markdown"
+    today = Chronos.today()
+    "#{Chronos.Formatter.strftime(today, "%y-%0m-%0d")}-post-#{num}.markdown"
   end
 
   defp create_post(num) do
@@ -70,13 +70,12 @@ defmodule Mix.Tasks.Perf do
   end
 
   defp cleanup do
-    File.rm_rf "./assets"
-    File.rm_rf "./posts"
-    File.rm_rf "./drafts"
-    File.rm_rf "./pages"
-    File.rm_rf "./layout"
-    File.rm "./site.yml"
-    File.rm_rf "./build"
+    File.rm_rf("./assets")
+    File.rm_rf("./posts")
+    File.rm_rf("./drafts")
+    File.rm_rf("./pages")
+    File.rm_rf("./layout")
+    File.rm("./site.yml")
+    File.rm_rf("./build")
   end
-
 end
