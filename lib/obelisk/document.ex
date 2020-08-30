@@ -2,6 +2,8 @@ defmodule Obelisk.Document do
   import Earmark, only: [as_html: 1]
 
   def compile(md_file, {template, renderer}) do
+    site_yml = File.read!("site.yml")
+    site = Obelisk.FrontMatter.parse(site_yml)
     md = File.read!(md_file)
     {frontmatter, md_content} = parts(md)
     fm = Obelisk.FrontMatter.parse(frontmatter)
@@ -19,9 +21,10 @@ defmodule Obelisk.Document do
           content:
             Obelisk.Renderer.render(
               template,
-              [content: content, frontmatter: fm],
+              [content: content, frontmatter: fm, site: site],
               renderer
-            )
+            ),
+          site: site
         ],
         layout_renderer
       )
@@ -29,6 +32,8 @@ defmodule Obelisk.Document do
   end
 
   def prepare(md_file, {template, renderer}) do
+    site_yml = File.read!("site.yml")
+    site = Obelisk.FrontMatter.parse(site_yml)
     md = File.read!(md_file)
     {frontmatter, md_content} = parts(md)
     fm = Obelisk.FrontMatter.parse(frontmatter)
@@ -38,11 +43,11 @@ defmodule Obelisk.Document do
     content =
       Obelisk.Renderer.render(
         template,
-        [content: content, frontmatter: fm, filename: file_name(md_file)],
+        [content: content, frontmatter: fm, filename: file_name(md_file), site: site],
         renderer
       )
 
-    assigns = [js: Obelisk.Assets.js(), css: Obelisk.Assets.css(), content: content]
+    assigns = [js: Obelisk.Assets.js(), css: Obelisk.Assets.css(), content: content, site: site]
     {layout_template, layout_renderer} = Obelisk.Layout.layout()
     document = Obelisk.Renderer.render(layout_template, assigns, layout_renderer)
 
